@@ -1,0 +1,4 @@
+graph vsetkych krajin proti sebe
+swagger api - GET data, POST predict(year/region)
+graph creation should be on frontend
+:)))))))))))))
