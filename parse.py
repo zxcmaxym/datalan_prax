@@ -1,7 +1,8 @@
 import csv
 from collections import defaultdict
-
+import os
 # Function to read CSV file and organize data into a dictionary of lists
+
 def read_csv(file_path):
     data_dict = defaultdict(list)
 
@@ -21,17 +22,21 @@ def read_csv(file_path):
     return data_dict
 
 # Function to write data to separate CSV files for each region
-def write_csv(data_dict):
+def write_csv(data_dict, folder_name):
     for region_id, values in data_dict.items():
-        file_name = f"{region_id}_data.csv"
+        file_name = f"{folder_name}/{region_id}_data.csv"
+        os.makedirs(folder_name, exist_ok=True)
         with open(file_name, 'w', newline='') as file:
             csv_writer = csv.writer(file)
             csv_writer.writerow(['year', 'crime_count'])
             for entry in values:
                 csv_writer.writerow([entry['year'], entry['crime_count']])
 
-# Example usage
-file_path = './crime_data.csv'  # Replace with your CSV file path
-data = read_csv(file_path)
-write_csv(data)
+def main():
+    file_path = './crime_data.csv'
+    folder_name = 'datasets'
+    data = read_csv(file_path)
+    write_csv(data, folder_name)
 
+if __name__ == "__main__":
+    main()
