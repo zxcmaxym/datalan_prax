@@ -1,8 +1,21 @@
 import csv
 from collections import defaultdict
 import os
-# Function to read CSV file and organize data into a dictionary of lists
-
+# Labels dictionary
+labels = {
+    "SK0": "Slovenská republika",
+    "SK01": "Bratislavský kraj",
+    "SK02": "Západné Slovensko",
+    "SK021": "Trnavský kraj",
+    "SK022": "Trenčiansky kraj",
+    "SK023": "Nitriansky kraj",
+    "SK03": "Stredné Slovensko",
+    "SK031": "Žilinský kraj",
+    "SK032": "Banskobystrický kraj",
+    "SK04": "Východné Slovensko",
+    "SK041": "Prešovský kraj",
+    "SK042": "Košický kraj"
+}
 def read_csv(file_path):
     data_dict = defaultdict(list)
 
@@ -17,14 +30,15 @@ def read_csv(file_path):
             region_id = row[region_index]
             year = int(row[year_index])
             crime_count = int(row[crime_count_index])
-            data_dict[region_id].append({'year': year, 'crime_count': crime_count})
+            # Reverse the order of data
+            data_dict[region_id].insert(0, {'year': year, 'crime_count': crime_count})
 
     return data_dict
 
-# Function to write data to separate CSV files for each region
 def write_csv(data_dict, folder_name):
     for region_id, values in data_dict.items():
-        file_name = f"{folder_name}/{region_id}_data.csv"
+        label = labels.get(region_id, region_id)
+        file_name = f"{folder_name}/{label.replace(' ', '_').replace('/', '_')}.csv"
         os.makedirs(folder_name, exist_ok=True)
         with open(file_name, 'w', newline='') as file:
             csv_writer = csv.writer(file)
@@ -40,3 +54,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
