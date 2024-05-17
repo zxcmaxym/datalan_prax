@@ -39,9 +39,8 @@ async def get_region_data(region: str):
     if not os.path.exists(file_path):
         raise HTTPException(status_code=404, detail="File not found")
     with open(file_path, 'r') as file:
-        file_contents = file.read()
-    json_compatible_item_data = jsonable_encoder(file_contents)
-    return JSONResponse(content=json_compatible_item_data)
+        file_contents = json.load(file)  # Load JSON content from file
+    return JSONResponse(content=file_contents)  # Return JSON directly
 
 if __name__ == "__main__":
     import uvicorn
