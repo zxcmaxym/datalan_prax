@@ -21,7 +21,7 @@ for region in regions:
     # Construct file paths
     population_file = os.path.join(population_dir, f'{region}_statistics.csv')
     datasets_file = os.path.join(datasets_dir, f'{region}.csv')
-    output_file = os.path.join(output_dir, f'{region}_crime_per_citizen.csv')
+    output_file = os.path.join(output_dir, f'{region}_final.csv')
 
     # Read population and crime data
     population_df = pd.read_csv(population_file, sep=',')
