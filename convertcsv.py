@@ -15,7 +15,7 @@ for filename in os.listdir(csv_directory):
     if filename.endswith(".csv"):
         # Read the CSV file into a pandas DataFrame
         filepath = os.path.join(csv_directory, filename)
-        df = pd.read_csv(filepath)
+        df = pd.read_csv(filepath, delimiter=';')
 
         # Convert DataFrame to JSON
         json_data = df.to_json(orient='records')
