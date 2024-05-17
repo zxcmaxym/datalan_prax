@@ -30,7 +30,7 @@ def save_data(regions, directory):
 
 if __name__ == "__main__":
     filename = "Population.csv"
-    output_directory = "population"
+    output_directory = "population_in"
     regions_data = parse_data(filename)
     save_data(regions_data, output_directory)
 

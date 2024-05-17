@@ -3,7 +3,7 @@ import os
 
 # Define directories
 population_dir = 'population'
-datasets_dir = 'datasets'
+datasets_dir = 'results'
 output_dir = 'output'
 
 # Ensure the output directory exists

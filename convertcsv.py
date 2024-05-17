@@ -3,7 +3,7 @@ import os
 import json
 
 # Directory containing CSV files
-csv_directory = "results/"
+csv_directory = "output/"
 
 # Directory to store JSON files
 json_directory = "json_output/"

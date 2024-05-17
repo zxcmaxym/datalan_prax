@@ -35,7 +35,7 @@ async def get_data():
 @app.get("/region")
 async def get_region_data(region: str):
     print(region)
-    file_path = f"output/{region}_kraj_final.csv"
+    file_path = f"json_output/{region}_kraj_final.json"
 
     if not os.path.exists(file_path):
         raise HTTPException(status_code=404, detail="File not found")
