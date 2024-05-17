@@ -1,7 +1,8 @@
-from fastapi import FastAPI, Header, HTTPException
+from fastapi import FastAPI, Path, HTTPException
 from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 import os
+from typing import Annotated
 import zipfile
 
 app = FastAPI()
@@ -16,7 +17,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/get_data")
+@app.get("/data")
 async def get_data():
     crime_data_path = "./crime_data.csv"
     population_data_path = "./Population.csv"
@@ -31,8 +32,9 @@ async def get_data():
 
     return FileResponse(zip_path, media_type='application/zip', filename='data_files.zip')
 
-@app.post("/region")
-async def get_region_data(region: str = Header(...), year: int = Header(...)):
+@app.get("/region")
+async def get_region_data(region: str):
+    print(region)
     file_path = f"output/{region}_kraj_final.csv"
 
     if not os.path.exists(file_path):
