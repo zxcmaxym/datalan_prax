@@ -18,8 +18,7 @@ def parse_data(filename):
     return regions
 
 def save_data(regions, directory):
-    if not os.path.exists(directory):
-        os.makedirs(directory)
+    os.makedirs(directory, exist_ok=True)
     
     for region, data in regions.items():
         with open(os.path.join(directory, f"{region.strip()}_statistics.csv"), 'w', newline='', encoding='utf-8') as file:

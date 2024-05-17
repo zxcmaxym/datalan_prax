@@ -1,9 +1,10 @@
 from fastapi import FastAPI, Path, HTTPException
-from fastapi.responses import FileResponse
+from fastapi.encoders import jsonable_encoder
+from fastapi.responses import FileResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 import os
-from typing import Annotated
 import zipfile
+import json
 
 app = FastAPI()
 
@@ -34,13 +35,13 @@ async def get_data():
 
 @app.get("/region")
 async def get_region_data(region: str):
-    print(region)
     file_path = f"json_output/{region}_kraj_final.json"
-
     if not os.path.exists(file_path):
         raise HTTPException(status_code=404, detail="File not found")
-
-    return FileResponse(file_path, media_type='text/csv', filename=f'{region}_kraj_final.csv')
+    with open(file_path, 'r') as file:
+        file_contents = file.read()
+    json_compatible_item_data = jsonable_encoder(file_contents)
+    return JSONResponse(content=json_compatible_item_data)
 
 if __name__ == "__main__":
     import uvicorn
