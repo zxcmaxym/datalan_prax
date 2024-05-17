@@ -1,6 +1,7 @@
 import csv
 from collections import defaultdict
 import os
+
 # Labels dictionary
 labels = {
     "SK0": "Slovenská republika",
@@ -54,4 +55,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
