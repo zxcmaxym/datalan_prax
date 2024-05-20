@@ -1,5 +1,6 @@
+import json
 from fastapi import FastAPI, Path, HTTPException
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 import os
 import zipfile
@@ -37,8 +38,6 @@ def custom_openapi():
 
 app.openapi = custom_openapi
 
-
-
 @app.get("/get_data")
 async def Download_crime_and_population_data():
     """
@@ -57,17 +56,14 @@ async def Download_crime_and_population_data():
 
     return FileResponse(zip_path, media_type='application/zip', filename='data_files.zip')
 
-
 @app.post("/region")
 async def Download_predicted_crime_rate_data(region: str):
-
-    print(region)
-    file_path = f"output/{region}_kraj_final.csv"
-
+    file_path = f"json_output/{region}_kraj_final.json"
     if not os.path.exists(file_path):
         raise HTTPException(status_code=404, detail="File not found")
-
-    return FileResponse(file_path, media_type='text/csv', filename=f'{region}_kraj_final.csv')
+    with open(file_path, 'r') as file:
+        file_contents = json.load(file)  # Load JSON content from file
+    return JSONResponse(content=file_contents)  # Return JSON directly
 
 if __name__ == "__main__":
     import uvicorn
