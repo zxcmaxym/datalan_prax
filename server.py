@@ -1,10 +1,9 @@
 from fastapi import FastAPI, Path, HTTPException
-from fastapi.encoders import jsonable_encoder
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 import os
 import zipfile
-import json
+from fastapi.openapi.utils import get_openapi
 
 app = FastAPI()
 
@@ -18,8 +17,31 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/data")
-async def get_data():
+def custom_openapi():
+    if app.openapi_schema:
+        return app.openapi_schema
+    openapi_schema = get_openapi(
+        title="DATA Access API",
+        version="2.5.0",
+        summary="This API allows you to retrieve predicted crime rates for a selected region up to a chosen year",
+        description="",
+        routes=app.routes,
+    )
+    openapi_schema["info"]["x-logo"] = {
+        "url": "https://fastapi.tiangolo.com/img/logo-margin/logo-teal.png"
+    }
+    app.openapi_schema = openapi_schema
+    return app.openapi_schema
+
+
+app.openapi = custom_openapi
+
+
+@app.get("/get_data")
+async def Download_crime_and_population_data():
+    """
+    This endpoint retrieves crime and population data as a zipped archive.
+    """
     crime_data_path = "./crime_data.csv"
     population_data_path = "./Population.csv"
     zip_path = "./data_files.zip"
@@ -33,14 +55,16 @@ async def get_data():
 
     return FileResponse(zip_path, media_type='application/zip', filename='data_files.zip')
 
-@app.get("/region")
-async def get_region_data(region: str):
-    file_path = f"json_output/{region}_kraj_final.json"
+@app.post("/region")
+async def Download_predicted_crime_rate_data(region: str):
+
+    print(region)
+    file_path = f"output/{region}_kraj_final.csv"
+
     if not os.path.exists(file_path):
         raise HTTPException(status_code=404, detail="File not found")
-    with open(file_path, 'r') as file:
-        file_contents = json.load(file)  # Load JSON content from file
-    return JSONResponse(content=file_contents)  # Return JSON directly
+
+    return FileResponse(file_path, media_type='text/csv', filename=f'{region}_kraj_final.csv')
 
 if __name__ == "__main__":
     import uvicorn
