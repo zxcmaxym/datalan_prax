@@ -81,8 +81,6 @@ async def Download_crime_and_population_data():
 
     return FileResponse(zip_path, media_type='application/zip', filename='data_files.zip')
 
-@app.post("/region")
-async def Download_predicted_crime_rate_data(region: str):
 
 @app.post("/region")
 async def Download_predicted_crime_rate_data(region: str):
