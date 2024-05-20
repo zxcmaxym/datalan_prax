@@ -22,8 +22,8 @@ def custom_openapi():
     if app.openapi_schema:
         return app.openapi_schema
     openapi_schema = get_openapi(
-        title="DATA Access API",
-        version="2.5.0",
+        title="Crime Prediction API",
+        version="1.0.0",
         summary="This API allows you to retrieve predicted crime rates for a selected region up to a chosen year",
         description="",
         routes=app.routes,
