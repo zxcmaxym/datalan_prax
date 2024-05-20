@@ -56,7 +56,7 @@ async def Download_crime_and_population_data():
 
     return FileResponse(zip_path, media_type='application/zip', filename='data_files.zip')
 
-@app.post("/region")
+@app.get("/region")
 async def Download_predicted_crime_rate_data(region: str):
     file_path = f"json_output/{region}_kraj_final.json"
     if not os.path.exists(file_path):
