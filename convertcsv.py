@@ -3,21 +3,19 @@ import os
 import json
 
 # Directory containing CSV files
-csv_directory = "results/"
+csv_directory = "output/"
 
 # Directory to store JSON files
 json_directory = "json_output/"
 
-# Create the output directory if it doesn't exist
-if not os.path.exists(json_directory):
-    os.makedirs(json_directory)
+os.makedirs(json_directory, exist_ok=True)
 
 # Iterate through each CSV file in the directory
 for filename in os.listdir(csv_directory):
     if filename.endswith(".csv"):
         # Read the CSV file into a pandas DataFrame
         filepath = os.path.join(csv_directory, filename)
-        df = pd.read_csv(filepath)
+        df = pd.read_csv(filepath, delimiter=';')
 
         # Convert DataFrame to JSON
         json_data = df.to_json(orient='records')

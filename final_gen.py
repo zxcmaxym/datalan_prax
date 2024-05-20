@@ -3,11 +3,12 @@ import os
 
 # Define directories
 population_dir = 'population'
-datasets_dir = 'datasets'
+datasets_dir = 'results'
 output_dir = 'output'
 
-# Ensure the output directory exists
 os.makedirs(output_dir, exist_ok=True)
+os.makedirs(population_dir, exist_ok=True)
+os.makedirs(datasets_dir, exist_ok=True)
 
 # List of regions
 regions = [

@@ -17,7 +17,7 @@ def predict_and_save(file_path):
     model.fit(years, crime_counts)
     
     # Predict crime counts for years 2022 to 2040
-    future_years = np.arange(2022, 2041).reshape(-1, 1)
+    future_years = np.arange(2023, 2041).reshape(-1, 1)
     predicted_crime_counts = model.predict(future_years)
     
     # Append predicted crime counts to the dataset
