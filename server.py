@@ -38,30 +38,6 @@ def custom_openapi():
 app.openapi = custom_openapi
 
 
-@app.get("/get_data")
-async def Download_crime_and_population_data():
-    """
-    This endpoint retrieves crime and population data as a zipped archive.
-    """
-def custom_openapi():
-    if app.openapi_schema:
-        return app.openapi_schema
-    openapi_schema = get_openapi(
-        title="DATA Access API",
-        version="2.5.0",
-        summary="This API allows you to retrieve predicted crime rates for a selected region up to a chosen year",
-        description="",
-        routes=app.routes,
-    )
-    openapi_schema["info"]["x-logo"] = {
-        "url": "https://fastapi.tiangolo.com/img/logo-margin/logo-teal.png"
-    }
-    app.openapi_schema = openapi_schema
-    return app.openapi_schema
-
-
-app.openapi = custom_openapi
-
 
 @app.get("/get_data")
 async def Download_crime_and_population_data():
